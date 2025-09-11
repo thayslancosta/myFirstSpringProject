@@ -1,7 +1,11 @@
 package com.thayslan.myfirstspringproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Category implements Serializable {
@@ -10,6 +14,12 @@ public class Category implements Serializable {
 
     private Long id;
     private String name;
+
+    // Anottation para ele não serializar essa lista
+    // iria ficar em um loop infinito por causa da referência categoria tem uma lista de produtos e produto tem uma categoria
+    //Serve para dizer ao Spring “não inclua este campo quando transformar o objeto em JSON”.
+    @JsonIgnore
+    private List<Product> products = new ArrayList<>();
 
     public Category() {
 
@@ -34,6 +44,10 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     @Override
