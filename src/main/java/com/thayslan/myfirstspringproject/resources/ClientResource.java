@@ -2,14 +2,12 @@ package com.thayslan.myfirstspringproject.resources;
 
 import com.thayslan.myfirstspringproject.entities.Category;
 import com.thayslan.myfirstspringproject.entities.Client;
+import com.thayslan.myfirstspringproject.entities.Product;
 import com.thayslan.myfirstspringproject.repositories.CategoryRepository;
 import com.thayslan.myfirstspringproject.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +31,25 @@ public class ClientResource {
 		Client client = clientRepository.findById(id).get();
         return ResponseEntity.ok().body(client);
     }
+
+    @PostMapping
+    public ResponseEntity<Client> create(@RequestBody Client client) {
+        Client savedClient= clientRepository.save(client);
+        return ResponseEntity.ok(savedClient );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> update(@PathVariable Long id, @RequestBody Client client) {
+        client.setId(id);
+        Client updatedClient = clientRepository.save(client);
+        return ResponseEntity.ok(updatedClient);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        clientRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

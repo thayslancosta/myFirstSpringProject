@@ -1,13 +1,11 @@
 package com.thayslan.myfirstspringproject.resources;
 
+import com.thayslan.myfirstspringproject.entities.Category;
 import com.thayslan.myfirstspringproject.entities.Product;
 import com.thayslan.myfirstspringproject.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +26,26 @@ public class ProductResource {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product>findById(@PathVariable Long id) {
-		Product cat = productRepository.findById(id).get();
-        return ResponseEntity.ok().body(cat);
+		Product product = productRepository.findById(id).get();
+        return ResponseEntity.ok().body(product);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> create(@RequestBody Product product) {
+        Product savedProduct = productRepository.save(product);
+        return ResponseEntity.ok(savedProduct );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product) {
+        product.setId(id);
+        Product updatedProduct = productRepository.save(product);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        productRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

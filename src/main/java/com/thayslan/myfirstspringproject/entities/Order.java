@@ -24,7 +24,7 @@ public class Order {
 
     private LocalDateTime date;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "order_product",
             joinColumns = @JoinColumn(name = "order_id"),

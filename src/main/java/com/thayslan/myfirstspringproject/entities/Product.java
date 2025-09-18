@@ -1,5 +1,6 @@
 package com.thayslan.myfirstspringproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ManyToMany(mappedBy = "productList")
+    @JsonIgnore
     private List<Order> orderList = new ArrayList<>();
 
     @Override

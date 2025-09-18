@@ -4,10 +4,7 @@ import com.thayslan.myfirstspringproject.entities.Category;
 import com.thayslan.myfirstspringproject.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +35,24 @@ public class CategoryResource {
     public ResponseEntity<Category>findById(@PathVariable Long id) {
 		Category cat = categoryRepository.findById(id).get();
         return ResponseEntity.ok().body(cat);
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> create(@RequestBody Category category) {
+        Category savedCategory = categoryRepository.save(category);
+        return ResponseEntity.ok(savedCategory);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
+        category.setId(id);
+        Category updatedCategory = categoryRepository.save(category);
+        return ResponseEntity.ok(updatedCategory);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        categoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

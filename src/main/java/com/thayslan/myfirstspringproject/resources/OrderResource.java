@@ -6,10 +6,7 @@ import com.thayslan.myfirstspringproject.repositories.OrderRepository;
 import com.thayslan.myfirstspringproject.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,5 +29,24 @@ public class OrderResource {
     public ResponseEntity<Order>findById(@PathVariable Long id) {
 		Order order = orderRepository.findById(id).get();
         return ResponseEntity.ok().body(order);
+    }
+
+    @PostMapping
+    public ResponseEntity<Order> create(@RequestBody Order order) {
+        Order savedOrder= orderRepository.save(order);
+        return ResponseEntity.ok(savedOrder);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> update(@PathVariable Long id, @RequestBody Order order) {
+        order.setId(id);
+        Order updatedOrder = orderRepository.save(order);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        orderRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
