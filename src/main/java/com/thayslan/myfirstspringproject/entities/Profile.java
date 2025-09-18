@@ -1,8 +1,16 @@
 package com.thayslan.myfirstspringproject.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Profile {
 
     @Id
@@ -13,43 +21,8 @@ public class Profile {
     private String address;
     private String cpf;
 
-    @OneToOne(mappedBy = "profile", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "client_id", unique = true, nullable = false)
     Client client;
 
-    public Profile() {
-    }
-
-    public Profile(String name, String address, String cpf) {
-        this.name = name;
-        this.address = address;
-        this.cpf = cpf;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 }
